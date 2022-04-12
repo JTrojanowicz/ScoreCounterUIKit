@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21A559" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="OneGainedPoint" representedClassName="OneGainedPoint" syncable="YES" codeGenerationType="class">
+        <attribute name="isIcrementingTeamA" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isIcrementingTeamB" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="setNumber" optional="YES" attributeType="Integer 16" minValueString="1" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="timeStamp" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+    <elements>
+        <element name="OneGainedPoint" positionX="-63" positionY="-18" width="128" height="89"/>
+    </elements>
+</model>

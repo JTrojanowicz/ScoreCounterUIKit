@@ -9,21 +9,31 @@
 /* Begin PBXBuildFile section */
 		EF5FF4D627FEC17B00744CF4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FF4D527FEC17B00744CF4 /* AppDelegate.swift */; };
 		EF5FF4D827FEC17B00744CF4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FF4D727FEC17B00744CF4 /* SceneDelegate.swift */; };
-		EF5FF4DA27FEC17B00744CF4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FF4D927FEC17B00744CF4 /* ViewController.swift */; };
+		EF5FF4DA27FEC17B00744CF4 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FF4D927FEC17B00744CF4 /* MainVC.swift */; };
 		EF5FF4DD27FEC17B00744CF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF5FF4DB27FEC17B00744CF4 /* Main.storyboard */; };
 		EF5FF4DF27FEC17D00744CF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF5FF4DE27FEC17D00744CF4 /* Assets.xcassets */; };
 		EF5FF4E227FEC17D00744CF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF5FF4E027FEC17D00744CF4 /* LaunchScreen.storyboard */; };
+		EF5FF4EA27FEE8A500744CF4 /* MainVC-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FF4E927FEE8A500744CF4 /* MainVC-ViewModel.swift */; };
+		EFCE531B280569EE00A39533 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCE531A280569EE00A39533 /* CoreDataManager.swift */; };
+		EFCE531F28056A2E00A39533 /* ScoreCounterDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EFCE531D28056A2E00A39533 /* ScoreCounterDatabase.xcdatamodeld */; };
+		EFCE532128056BF500A39533 /* AppProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCE532028056BF500A39533 /* AppProperties.swift */; };
+		EFCE5324280573E000A39533 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCE5323280573E000A39533 /* UserDefaults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		EF5FF4D227FEC17B00744CF4 /* ScoreCounterUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScoreCounterUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF5FF4D527FEC17B00744CF4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF5FF4D727FEC17B00744CF4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		EF5FF4D927FEC17B00744CF4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EF5FF4D927FEC17B00744CF4 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		EF5FF4DC27FEC17B00744CF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EF5FF4DE27FEC17D00744CF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF5FF4E127FEC17D00744CF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF5FF4E327FEC17D00744CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF5FF4E927FEE8A500744CF4 /* MainVC-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainVC-ViewModel.swift"; sourceTree = "<group>"; };
+		EFCE531A280569EE00A39533 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		EFCE531E28056A2E00A39533 /* ScoreCounterDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ScoreCounterDatabase.xcdatamodel; sourceTree = "<group>"; };
+		EFCE532028056BF500A39533 /* AppProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProperties.swift; sourceTree = "<group>"; };
+		EFCE5323280573E000A39533 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,13 +68,42 @@
 			children = (
 				EF5FF4D527FEC17B00744CF4 /* AppDelegate.swift */,
 				EF5FF4D727FEC17B00744CF4 /* SceneDelegate.swift */,
-				EF5FF4D927FEC17B00744CF4 /* ViewController.swift */,
-				EF5FF4DB27FEC17B00744CF4 /* Main.storyboard */,
+				EFCE531C280569F700A39533 /* Model */,
+				EFCE53222805727000A39533 /* View-ViewModel */,
+				EFCE53252805A96500A39533 /* Storyboard */,
 				EF5FF4DE27FEC17D00744CF4 /* Assets.xcassets */,
-				EF5FF4E027FEC17D00744CF4 /* LaunchScreen.storyboard */,
 				EF5FF4E327FEC17D00744CF4 /* Info.plist */,
 			);
 			path = ScoreCounterUIKit;
+			sourceTree = "<group>";
+		};
+		EFCE531C280569F700A39533 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EFCE532028056BF500A39533 /* AppProperties.swift */,
+				EFCE5323280573E000A39533 /* UserDefaults.swift */,
+				EFCE531A280569EE00A39533 /* CoreDataManager.swift */,
+				EFCE531D28056A2E00A39533 /* ScoreCounterDatabase.xcdatamodeld */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		EFCE53222805727000A39533 /* View-ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				EF5FF4D927FEC17B00744CF4 /* MainVC.swift */,
+				EF5FF4E927FEE8A500744CF4 /* MainVC-ViewModel.swift */,
+			);
+			path = "View-ViewModel";
+			sourceTree = "<group>";
+		};
+		EFCE53252805A96500A39533 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				EF5FF4DB27FEC17B00744CF4 /* Main.storyboard */,
+				EF5FF4E027FEC17D00744CF4 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,8 +177,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF5FF4DA27FEC17B00744CF4 /* ViewController.swift in Sources */,
+				EF5FF4EA27FEE8A500744CF4 /* MainVC-ViewModel.swift in Sources */,
+				EF5FF4DA27FEC17B00744CF4 /* MainVC.swift in Sources */,
 				EF5FF4D627FEC17B00744CF4 /* AppDelegate.swift in Sources */,
+				EFCE531B280569EE00A39533 /* CoreDataManager.swift in Sources */,
+				EFCE5324280573E000A39533 /* UserDefaults.swift in Sources */,
+				EFCE531F28056A2E00A39533 /* ScoreCounterDatabase.xcdatamodeld in Sources */,
+				EFCE532128056BF500A39533 /* AppProperties.swift in Sources */,
 				EF5FF4D827FEC17B00744CF4 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -295,13 +339,14 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = iApp.ScoreCounterUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -323,13 +368,14 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = iApp.ScoreCounterUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -360,6 +406,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		EFCE531D28056A2E00A39533 /* ScoreCounterDatabase.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				EFCE531E28056A2E00A39533 /* ScoreCounterDatabase.xcdatamodel */,
+			);
+			currentVersion = EFCE531E28056A2E00A39533 /* ScoreCounterDatabase.xcdatamodel */;
+			path = ScoreCounterDatabase.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = EF5FF4CA27FEC17B00744CF4 /* Project object */;
 }
