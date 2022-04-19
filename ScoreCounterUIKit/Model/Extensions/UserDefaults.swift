@@ -12,6 +12,7 @@ extension UserDefaults {
         static let nameOfTeamA = "nameOfTeamA"
         static let nameOfTeamB = "nameOfTeamB"
         static let isTeamAonTheRight = "isTeamAonTheRight"
+        static let currentSetNumber = "currentSetNumber"
     }
     
     class var nameOfTeamA: String {
@@ -44,6 +45,22 @@ extension UserDefaults {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Keys.isTeamAonTheRight)
+        }
+    }
+    
+    class var currentSetNumber: Int {
+        get {
+            let storedSetNumber = UserDefaults.standard.integer(forKey: Keys.currentSetNumber)
+            if storedSetNumber < 1 {
+                return 1 //set number cannot be smaller than 1
+            } else {
+                return storedSetNumber
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Keys.currentSetNumber)
+            
+            NotificationCenter.default.post(name: .newSetNumber, object: self, userInfo: nil)
         }
     }
 }

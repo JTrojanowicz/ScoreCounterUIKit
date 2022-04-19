@@ -16,7 +16,7 @@ class CoreDataManager {
     
     static let shared = CoreDataManager()
     
-    private var moc: NSManagedObjectContext
+    var moc: NSManagedObjectContext
     
     init() {
         let container = NSPersistentContainer(name: AppProperties.coreDataModelName)
@@ -42,14 +42,38 @@ class CoreDataManager {
     //===============================================================================
     // MARK:       **************
     //===============================================================================
-    func fetchGainedPointsOfAllSets() -> [OneGainedPoint] {
-        return fetchGainedPoints()
+    func areThereAnyPointsStored(for setNumber: Int? = nil) -> Bool {
+        let fetchRequest: NSFetchRequest<OneGainedPoint> = OneGainedPoint.fetchRequest()
+        if let setNumber = setNumber {
+            fetchRequest.predicate = NSPredicate(format: "setNumber == %i", setNumber) //filter out all the scores gained at different sets
+        }
+        
+        do {
+            let allGainedPoints = try moc.fetch(fetchRequest) // Execute Fetch Request
+            return allGainedPoints.count > 0
+        } catch(let fetchError) {
+            print("⛔️ Error: \(fetchError), \(fetchError.localizedDescription)")
+        }
+        
+        return false
     }
     
-    func fetchGainedPoints(of setNumber: Int? = nil) -> [OneGainedPoint] {
+    func isMakingNewSetAllowed(setNumber: Int) -> Bool {
+        let score = getScore(of: setNumber, with: Date.now)
+        if score.teamA >= AppProperties.newSetAllowedFromScore || score.teamB >= AppProperties.newSetAllowedFromScore {
+            return true
+        }
+        return false
+    }
+    
+    func fetchGainedPointsOfAllSets() -> [OneGainedPoint] {
+        return fetchGainedPoints(of: nil, oldestFirst: true) // the oldest will be the first
+    }
+    
+    func fetchGainedPoints(of setNumber: Int?, oldestFirst: Bool) -> [OneGainedPoint] {
         
         let fetchRequest: NSFetchRequest<OneGainedPoint> = OneGainedPoint.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(OneGainedPoint.timeStamp), ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(OneGainedPoint.timeStamp), ascending: oldestFirst)]
         if let setNumber = setNumber {
             fetchRequest.predicate = NSPredicate(format: "setNumber == %i", setNumber) //filter out all the scores gained at different sets
         }
@@ -72,7 +96,7 @@ class CoreDataManager {
         
         var score: (teamA: Int, teamB: Int) = (0, 0)
         
-        let fetchedGainedPoints = fetchGainedPoints(of: setNumber)
+        let fetchedGainedPoints = fetchGainedPoints(of: setNumber, oldestFirst: true)
         
         for fetchedPoint in fetchedGainedPoints {
             if let timeStampOfFetchedPoint = fetchedPoint.timeStamp, let timeStampMax = timeStampMax {
@@ -96,26 +120,64 @@ class CoreDataManager {
         var pointsOfTeamA = 0, pointsOfTeamB = 0
         var previousSetNumber: Int16 = 0
         
-        let fetchedGainedPoints = fetchGainedPoints()
+        let fetchedGainedPoints = fetchGainedPointsOfAllSets() //sorted: the first is the oldest
+        
+        if let firstSetNumber = fetchedGainedPoints.first?.setNumber {
+            previousSetNumber = firstSetNumber
+        } else {
+            return gainedSets // (0, 0)
+        }
+        
+        print("Number of ALL fetched points: \(fetchedGainedPoints.count)")
         
         for fetchedPoint in fetchedGainedPoints {
-            if fetchedPoint.setNumber > previousSetNumber && previousSetNumber > 0 { //if you noticed that the set number has become greater (but ignore the start up situation)
+            
+            if previousSetNumber == fetchedPoint.setNumber {
+                
+                if fetchedPoint.isIcrementingTeamA {
+                    pointsOfTeamA += 1
+                } else if fetchedPoint.isIcrementingTeamB {
+                    pointsOfTeamB += 1
+                }
+                print("fetchedPoint -> A: \(fetchedPoint.isIcrementingTeamA ? "+1" : "0"), B: \(fetchedPoint.isIcrementingTeamB ? "+1" : "0"), setNumber: \(fetchedPoint.setNumber)")
+                
+            } else { //the set number increased
+                
                 if pointsOfTeamA > pointsOfTeamB {
                     gainedSets.teamA += 1
                 } else if pointsOfTeamB > pointsOfTeamA {
                     gainedSets.teamB += 1
-                }
-                //ignore situations when pointsOfTeamA == pointsOfTeamB
+                } //ignore situations when pointsOfTeamA == pointsOfTeamB
                 
-                previousSetNumber = fetchedPoint.setNumber // update set number
+                print("Set no. \(previousSetNumber) was completed. The score: (A) \(pointsOfTeamA):\(pointsOfTeamB) (B). Gained sets up to now: (A) \(gainedSets.teamA):\(gainedSets.teamB) (B)")
+                
+                //start counting points for the next set:
+                
+                pointsOfTeamA = 0 //reset
+                pointsOfTeamB = 0 //reset
+                previousSetNumber = fetchedPoint.setNumber //update
+                // count the points for appropriate team:
+                if fetchedPoint.isIcrementingTeamA {
+                    pointsOfTeamA += 1
+                } else if fetchedPoint.isIcrementingTeamB {
+                    pointsOfTeamB += 1
+                }
+                print("fetchedPoint -> A: \(fetchedPoint.isIcrementingTeamA ? "+1" : "0"), B: \(fetchedPoint.isIcrementingTeamB ? "+1" : "0"), setNumber: \(fetchedPoint.setNumber)")
             }
-            if fetchedPoint.isIcrementingTeamA {
-                pointsOfTeamA += 1
-            }
-            if fetchedPoint.isIcrementingTeamB {
-                pointsOfTeamB += 1
-            }
+            
         }
+        
+        if previousSetNumber < UserDefaults.currentSetNumber { // the set was now completed (the new set was created) there are no gained points for this set yet (but the previous one is
+            
+            if pointsOfTeamA > pointsOfTeamB {
+                gainedSets.teamA += 1
+            } else if pointsOfTeamB > pointsOfTeamA {
+                gainedSets.teamB += 1
+            } //ignore situations when pointsOfTeamA == pointsOfTeamB
+            
+            print("Set no. \(previousSetNumber) was completed. The score: (A) \(pointsOfTeamA):\(pointsOfTeamB) (B). Gained sets up to now: (A) \(gainedSets.teamA):\(gainedSets.teamB) (B)")
+        }
+        
         return gainedSets
     }
     
@@ -133,6 +195,8 @@ class CoreDataManager {
             
             saveToPersistentStore()
             
+            UserDefaults.currentSetNumber = 1 //default
+            
         } catch(let fetchError) {
             print("⛔️ Error: \(fetchError), \(fetchError.localizedDescription)")
         }
@@ -146,7 +210,7 @@ class CoreDataManager {
         if let setNumber = setNumber {
             fetchRequest.predicate = NSPredicate(format: "setNumber == %i", setNumber) //filter out the items other than for the selected set
         } else {
-            let curSet = getCurrentSet()
+            let curSet = UserDefaults.currentSetNumber
             fetchRequest.predicate = NSPredicate(format: "setNumber == %i", curSet) //filter out the items other than for the currentSet
         }
         fetchRequest.fetchLimit = 1
@@ -156,7 +220,6 @@ class CoreDataManager {
             
             if let lastItem = fetchedItems.first { //there will only one item or none
                 moc.delete(lastItem)
-                
                 saveToPersistentStore()
             }
             
@@ -165,25 +228,7 @@ class CoreDataManager {
         }
     }
     
-    func getCurrentSet() -> Int {
-        let fetchRequest: NSFetchRequest<OneGainedPoint> = OneGainedPoint.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(OneGainedPoint.timeStamp), ascending: false)] //last item will come first
-        fetchRequest.fetchLimit = 1
-        
-        do {
-            let fetchedItems = try moc.fetch(fetchRequest) // Execute Fetch Request
-            if let lastItem = fetchedItems.first { //there will only one item or none
-                return Int(lastItem.setNumber)
-            }
-        } catch(let fetchError) {
-            print("⛔️ Error: \(fetchError), \(fetchError.localizedDescription)")
-        }
-        
-        return 1 //if there no items are found, return default set number: 1
-    }
-    
     func onePointIncrement(of team: Team) {
-        let curSetNumber = getCurrentSet()
         
         let onePoint = OneGainedPoint(context: moc)
         if team == .teamA {
@@ -192,7 +237,7 @@ class CoreDataManager {
             onePoint.isIcrementingTeamB = true
         }
         
-        onePoint.setNumber = Int16(curSetNumber)
+        onePoint.setNumber = Int16(UserDefaults.currentSetNumber)
         onePoint.timeStamp = Date.now
         
         saveToPersistentStore()

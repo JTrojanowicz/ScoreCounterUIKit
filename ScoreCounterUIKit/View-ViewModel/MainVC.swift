@@ -21,7 +21,7 @@ class MainVC: UIViewController {
     @IBOutlet weak var pointsTeamA: UILabel!
     @IBOutlet weak var pointsTeamB: UILabel!
     
-    lazy var viewModel = ViewModel()
+    var viewModel = ViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +29,7 @@ class MainVC: UIViewController {
         versionLabel.text = viewModel.setVersionLabel()
         buildNavigationItems()
         buildPanelView()
-        loadProperties()
+        loadAllProperties()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -51,34 +51,57 @@ class MainVC: UIViewController {
     }
     
     private func buildNavigationItems() {
-        navItem.setRightBarButtonItems([viewModel.moreButton(), viewModel.trashButton()], animated: true)
-        navItem.setLeftBarButtonItems([viewModel.undoButton()], animated: true)
+        navItem.rightBarButtonItems = viewModel.navigationBarButtonsRight()
+        navItem.leftBarButtonItems = viewModel.navigationBarButtonsLeft()
     }
     
-    private func loadProperties() {
-        let properties = viewModel.loadProperties()
-        setNumberLabel.text = String(properties.currentSetNumber)
+    private func loadAllProperties() {
+        loadNamesOfTeams()
+        loadCurScoreAndSetNumber()
+        loadGainedSets()
+    }
+    
+    private func loadNamesOfTeams() {
         teamAName.text = UserDefaults.nameOfTeamA
         teamBName.text = UserDefaults.nameOfTeamB
-        gainedSetsTeamA.text = String(properties.gainedSetsOfTeamA)
-        gainedSetsTeamB.text = String(properties.gainedSetsOfTeamB)
-        pointsTeamA.text = String(properties.currentPointsOfTeamA)
-        pointsTeamB.text = String(properties.currentPointsOfTeamB)
+    }
+    
+    private func loadCurScoreAndSetNumber() {
+        let loadedProperties = viewModel.loadCurScoreAndSetNumber()
+        setNumberLabel.text = String(loadedProperties.setNumber)
+        pointsTeamA.text = String(loadedProperties.teamA)
+        pointsTeamB.text = String(loadedProperties.teamB)
+    }
+    
+    private func loadGainedSets() {
+        let loadedProperties = viewModel.loadGainedSets()
+        gainedSetsTeamA.text = "(\(loadedProperties.gainedSetsOfTeamA))"
+        gainedSetsTeamB.text = "(\(loadedProperties.gainedSetsOfTeamB))"
     }
     
     @IBAction func leftButtonPressed(_ sender: Any) {
-        viewModel.leftButtonPressed()
+        viewModel.bigButtonPressed(courtSide: .left)
     }
     
     @IBAction func rightButtonPressed(_ sender: Any) {
-        viewModel.rightButtonPressed()
+        viewModel.bigButtonPressed(courtSide: .right)
     }
     
 }
-
+//===============================================================================
+// MARK:       ******* ViewModelDelegate *******
+//===============================================================================
 extension MainVC: ViewModelDelegate {
-    func reloadView() {
-        loadProperties()
+    func reloadCurScoreAndSetNumber() {
+        loadCurScoreAndSetNumber()
+    }
+    
+    func reloadGainedSets() {
+        loadGainedSets()
+    }
+    
+    func reloadNavigationBarButtons() {
+        buildNavigationItems()
     }
 }
 

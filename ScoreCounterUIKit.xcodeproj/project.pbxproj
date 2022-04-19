@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF2B777928082AAB0068B9AD /* HistoryTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2B777828082AAB0068B9AD /* HistoryTVC.swift */; };
+		EF2B777B28082B440068B9AD /* HistoryTVC-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2B777A28082B440068B9AD /* HistoryTVC-ViewModel.swift */; };
+		EF2B777D28082F530068B9AD /* HistoryTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2B777C28082F530068B9AD /* HistoryTVCell.swift */; };
+		EF2B777F2809A9010068B9AD /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2B777E2809A9010068B9AD /* NotificationCenter.swift */; };
 		EF5FF4D627FEC17B00744CF4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FF4D527FEC17B00744CF4 /* AppDelegate.swift */; };
 		EF5FF4D827FEC17B00744CF4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FF4D727FEC17B00744CF4 /* SceneDelegate.swift */; };
 		EF5FF4DA27FEC17B00744CF4 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FF4D927FEC17B00744CF4 /* MainVC.swift */; };
@@ -21,6 +25,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EF2B777828082AAB0068B9AD /* HistoryTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTVC.swift; sourceTree = "<group>"; };
+		EF2B777A28082B440068B9AD /* HistoryTVC-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistoryTVC-ViewModel.swift"; sourceTree = "<group>"; };
+		EF2B777C28082F530068B9AD /* HistoryTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTVCell.swift; sourceTree = "<group>"; };
+		EF2B777E2809A9010068B9AD /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
 		EF5FF4D227FEC17B00744CF4 /* ScoreCounterUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScoreCounterUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF5FF4D527FEC17B00744CF4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF5FF4D727FEC17B00744CF4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +55,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EF2B77802809A9060068B9AD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				EFCE5323280573E000A39533 /* UserDefaults.swift */,
+				EF2B777E2809A9010068B9AD /* NotificationCenter.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		EF5FF4C927FEC17B00744CF4 = {
 			isa = PBXGroup;
 			children = (
@@ -81,9 +98,9 @@
 			isa = PBXGroup;
 			children = (
 				EFCE532028056BF500A39533 /* AppProperties.swift */,
-				EFCE5323280573E000A39533 /* UserDefaults.swift */,
 				EFCE531A280569EE00A39533 /* CoreDataManager.swift */,
 				EFCE531D28056A2E00A39533 /* ScoreCounterDatabase.xcdatamodeld */,
+				EF2B77802809A9060068B9AD /* Extensions */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -93,6 +110,9 @@
 			children = (
 				EF5FF4D927FEC17B00744CF4 /* MainVC.swift */,
 				EF5FF4E927FEE8A500744CF4 /* MainVC-ViewModel.swift */,
+				EF2B777828082AAB0068B9AD /* HistoryTVC.swift */,
+				EF2B777C28082F530068B9AD /* HistoryTVCell.swift */,
+				EF2B777A28082B440068B9AD /* HistoryTVC-ViewModel.swift */,
 			);
 			path = "View-ViewModel";
 			sourceTree = "<group>";
@@ -178,12 +198,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF5FF4EA27FEE8A500744CF4 /* MainVC-ViewModel.swift in Sources */,
+				EF2B777B28082B440068B9AD /* HistoryTVC-ViewModel.swift in Sources */,
 				EF5FF4DA27FEC17B00744CF4 /* MainVC.swift in Sources */,
 				EF5FF4D627FEC17B00744CF4 /* AppDelegate.swift in Sources */,
 				EFCE531B280569EE00A39533 /* CoreDataManager.swift in Sources */,
+				EF2B777D28082F530068B9AD /* HistoryTVCell.swift in Sources */,
 				EFCE5324280573E000A39533 /* UserDefaults.swift in Sources */,
+				EF2B777F2809A9010068B9AD /* NotificationCenter.swift in Sources */,
 				EFCE531F28056A2E00A39533 /* ScoreCounterDatabase.xcdatamodeld in Sources */,
 				EFCE532128056BF500A39533 /* AppProperties.swift in Sources */,
+				EF2B777928082AAB0068B9AD /* HistoryTVC.swift in Sources */,
 				EF5FF4D827FEC17B00744CF4 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -346,7 +370,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = iApp.ScoreCounterUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -375,7 +399,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = iApp.ScoreCounterUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

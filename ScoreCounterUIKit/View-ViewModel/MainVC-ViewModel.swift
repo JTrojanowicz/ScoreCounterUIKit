@@ -8,17 +8,16 @@
 import UIKit
 
 protocol ViewModelDelegate: AnyObject {
-    func reloadView()
+    func reloadCurScoreAndSetNumber()
+    func reloadGainedSets()
+    func reloadNavigationBarButtons()
+}
+
+enum CourtSide {
+    case left, right
 }
 
 extension MainVC {
-    struct StoredProperties {
-        let currentSetNumber: Int
-        let gainedSetsOfTeamA: Int
-        let gainedSetsOfTeamB: Int
-        let currentPointsOfTeamA: Int
-        let currentPointsOfTeamB: Int
-    }
     
     class ViewModel {
         
@@ -31,21 +30,31 @@ extension MainVC {
         //===============================================================================
         // MARK:       ******* Loading the properties from Persistent Store *******
         //===============================================================================
-        func loadProperties() -> StoredProperties {
-            let curSetNumber = CoreDataManager.shared.getCurrentSet()
+        func loadCurScoreAndSetNumber() -> (teamA: Int, teamB: Int, setNumber: Int) {
+            let curSetNumber = UserDefaults.currentSetNumber
             let curScore = CoreDataManager.shared.getScore(of: curSetNumber, with: Date.now)
+            return (teamA: curScore.teamA, teamB: curScore.teamB, setNumber: curSetNumber)
+        }
+        
+        func loadGainedSets() -> (gainedSetsOfTeamA: Int, gainedSetsOfTeamB: Int) {
             let gainedSets = CoreDataManager.shared.getGainedSets()
-            return StoredProperties(currentSetNumber: curSetNumber,
-                                    gainedSetsOfTeamA: gainedSets.teamA,
-                                    gainedSetsOfTeamB: gainedSets.teamB,
-                                    currentPointsOfTeamA: curScore.teamA,
-                                    currentPointsOfTeamB: curScore.teamB)
-           
+            return (gainedSetsOfTeamA: gainedSets.teamA, gainedSetsOfTeamB: gainedSets.teamB)
         }
         
         //===============================================================================
-        // MARK:       ******* UI COMPONETS *******
+        // MARK:       ******* UI COMPONETS  - navigationBarButtonsRIGHT *******
         //===============================================================================
+        func navigationBarButtonsRight() -> [UIBarButtonItem] {
+            var buttonItems = [UIBarButtonItem]()
+            
+            buttonItems.append(moreButton())
+            if CoreDataManager.shared.areThereAnyPointsStored() {
+                buttonItems.append(trashButton())
+            }
+            
+            return buttonItems
+        }
+        
         func trashButton() -> UIBarButtonItem {
             let largeConfig = UIImage.SymbolConfiguration(textStyle: .title2)
             
@@ -64,6 +73,32 @@ extension MainVC {
             moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
             
             return UIBarButtonItem(customView: moreButton)
+        }
+        
+        //===============================================================================
+        // MARK:       ******* UI COMPONETS  - navigationBarButtonsLEFT *******
+        //===============================================================================
+        func navigationBarButtonsLeft() -> [UIBarButtonItem] {
+            var buttonItems = [UIBarButtonItem]()
+            
+            let currentSet = UserDefaults.currentSetNumber
+            if currentSet == 1 {
+                if CoreDataManager.shared.areThereAnyPointsStored(for: currentSet) {
+                    buttonItems.append(undoButton())
+                }
+            } else { // currentSet > 1
+                if CoreDataManager.shared.areThereAnyPointsStored(for: currentSet) {
+                    buttonItems.append(undoButton())
+                } else {
+                    buttonItems.append(backButton())
+                }
+            }
+            
+            if CoreDataManager.shared.isMakingNewSetAllowed(setNumber: currentSet) {
+                buttonItems.append(newSetButton())
+            }
+            
+            return buttonItems
         }
         
         func undoButton() -> UIBarButtonItem {
@@ -87,11 +122,7 @@ extension MainVC {
         }
         
         func newSetButton() -> UIBarButtonItem {
-            let newSetButton = UIButton()
-            newSetButton.setTitle("New set", for: .normal)
-            newSetButton.addTarget(self, action: #selector(newSetButtonPressed), for: .touchUpInside)
-                        
-            return UIBarButtonItem(customView: newSetButton)
+            return UIBarButtonItem(title: "New Set", style: .plain, target: self, action: #selector(newSetButtonPressed))
         }
         
         //===============================================================================
@@ -100,7 +131,9 @@ extension MainVC {
         @objc func trashButtonPressed() {
             print("trashButtonPressed")
             CoreDataManager.shared.eraseEverything()
-            delegate?.reloadView()
+            delegate?.reloadCurScoreAndSetNumber()
+            delegate?.reloadGainedSets()
+            delegate?.reloadNavigationBarButtons()
         }
         
         @objc func moreButtonPressed() {
@@ -110,27 +143,65 @@ extension MainVC {
         @objc func undoButtonPressed() {
             print("undoButtonPressed")
             CoreDataManager.shared.removeLastScore()
-            delegate?.reloadView()
+            delegate?.reloadCurScoreAndSetNumber()
+            delegate?.reloadNavigationBarButtons()
         }
      
         @objc func backButtonPressed() {
             print("backButtonPressed")
+            if UserDefaults.currentSetNumber > 1 {
+                UserDefaults.currentSetNumber -= 1
+                delegate?.reloadCurScoreAndSetNumber()
+                delegate?.reloadGainedSets()
+                delegate?.reloadNavigationBarButtons()
+            }
         }
         
         @objc func newSetButtonPressed() {
             print("newSetButtonPressed")
+            UserDefaults.currentSetNumber += 1
+            delegate?.reloadCurScoreAndSetNumber()
+            delegate?.reloadGainedSets()
+            delegate?.reloadNavigationBarButtons()
         }
         
-        func leftButtonPressed() {
-            let team: Team = UserDefaults.isTeamAonTheRight ? .teamB : .teamA
-            CoreDataManager.shared.onePointIncrement(of: team)
-            delegate?.reloadView()
-        }
-        
-        func rightButtonPressed() {
-            let team: Team = UserDefaults.isTeamAonTheRight ? .teamA : .teamB
-            CoreDataManager.shared.onePointIncrement(of: team)
-            delegate?.reloadView()
+        func bigButtonPressed(courtSide: CourtSide) {
+            // check if there are any points stored
+            var initiallyNoPointsWereStored = false
+            if !CoreDataManager.shared.areThereAnyPointsStored() {
+                initiallyNoPointsWereStored = true
+            }
+            
+            // store one point:
+            if courtSide == .left {
+                let team: Team = UserDefaults.isTeamAonTheRight ? .teamB : .teamA
+                CoreDataManager.shared.onePointIncrement(of: team)
+                
+                let score = CoreDataManager.shared.getScore(of: UserDefaults.currentSetNumber, with: Date.now)
+                print("+ 1pt for team \(team == .teamA ? "A" : "B") -- score: (A) \(score.teamA):\(score.teamB) (B) @ setNumber = \(UserDefaults.currentSetNumber)")
+            } else {
+                let team: Team = UserDefaults.isTeamAonTheRight ? .teamA : .teamB
+                CoreDataManager.shared.onePointIncrement(of: team)
+                
+                let score = CoreDataManager.shared.getScore(of: UserDefaults.currentSetNumber, with: Date.now)
+                print("+ 1pt for team \(team == .teamA ? "A" : "B") -- score: (A) \(score.teamA):\(score.teamB) (B) @ setNumber = \(UserDefaults.currentSetNumber)")
+            }
+            delegate?.reloadCurScoreAndSetNumber()
+            
+            // check if reloading of navigation bar is needed
+            if initiallyNoPointsWereStored {
+                delegate?.reloadNavigationBarButtons()
+            }
+            
+            // Check again if the New Set button should be shown
+            let currentSet = UserDefaults.currentSetNumber
+            let score = CoreDataManager.shared.getScore(of: currentSet, with: Date.now)
+            if (score.teamA == AppProperties.newSetAllowedFromScore && score.teamB < AppProperties.newSetAllowedFromScore)
+                || (score.teamB == AppProperties.newSetAllowedFromScore && score.teamA < AppProperties.newSetAllowedFromScore) {
+                
+                // yes, the New Set button should be shown, because one of the teams reached the AppProperties.newSetAllowedFromScore points
+                delegate?.reloadNavigationBarButtons()
+            }
         }
     }
 }
