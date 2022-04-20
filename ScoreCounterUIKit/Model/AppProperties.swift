@@ -11,5 +11,4 @@ class AppProperties {
     static let coreDataModelName = "ScoreCounterDatabase"
     static let newSetAllowedFromScore = 1
     
-    
 }

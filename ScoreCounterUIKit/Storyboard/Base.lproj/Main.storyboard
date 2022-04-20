@@ -205,7 +205,7 @@
             <objects>
                 <tableViewController id="zms-ba-lTS" customClass="HistoryTVC" customModule="ScoreCounterUIKit" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="Ili-zh-EHU">
-                        <rect key="frame" x="0.0" y="0.0" width="364" height="267"/>
+                        <rect key="frame" x="0.0" y="0.0" width="364" height="267.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
@@ -243,7 +243,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="6Ns-PO-yOg" firstAttribute="centerY" secondItem="JO7-E3-yRx" secondAttribute="centerY" id="1bd-8x-O0J"/>
-                                        <constraint firstItem="lgt-Zg-2rJ" firstAttribute="trailing" secondItem="xyL-qP-Zsu" secondAttribute="leading" constant="-12" id="2vo-TN-XUo"/>
+                                        <constraint firstItem="lgt-Zg-2rJ" firstAttribute="trailing" secondItem="xyL-qP-Zsu" secondAttribute="leading" priority="750" constant="-12" id="2vo-TN-XUo"/>
                                         <constraint firstItem="xyL-qP-Zsu" firstAttribute="top" secondItem="JO7-E3-yRx" secondAttribute="top" constant="6" id="4Fr-gU-03a"/>
                                         <constraint firstItem="6Ns-PO-yOg" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="JO7-E3-yRx" secondAttribute="trailing" id="6ct-PU-Lhp"/>
                                         <constraint firstItem="xLZ-35-90e" firstAttribute="trailing" secondItem="JO7-E3-yRx" secondAttribute="trailing" constant="-16" id="9zC-to-oZf"/>
@@ -345,7 +345,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ovY-m8-8gk">
                                 <rect key="frame" x="12" y="24" width="255" height="58"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vpj-qV-1gH">
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vpj-qV-1gH">
                                         <rect key="frame" x="8" y="0.0" width="239" height="33"/>
                                         <color key="tintColor" systemColor="systemRedColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -366,7 +366,7 @@
                                             <action selector="didTappedConfirmRemovingAllScores:" destination="CUT-Rp-6LG" eventType="touchUpInside" id="0IR-FL-ICV"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="You cannot undo this action" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vQt-QI-Wsa">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You cannot undo this action" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vQt-QI-Wsa">
                                         <rect key="frame" x="38" y="41" width="179.5" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
