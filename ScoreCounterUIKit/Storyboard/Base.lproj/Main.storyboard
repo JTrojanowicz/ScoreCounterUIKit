@@ -45,13 +45,13 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lZ5-sI-wtA" userLabel="NamesOfTeamsSV">
                                                         <rect key="frame" x="0.0" y="0.0" width="348" height="20.5"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TeamA_name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DNK-G8-NMw">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TeamLeft_name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DNK-G8-NMw" userLabel="TeamLeftName">
                                                                 <rect key="frame" x="0.0" y="0.0" width="170" height="20.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TeamB_name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QDx-2o-lPw">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TeamRight_name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QDx-2o-lPw" userLabel="TeamRightName">
                                                                 <rect key="frame" x="178" y="0.0" width="170" height="20.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
@@ -133,7 +133,7 @@
                                 </constraints>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eD9-Ou-fgP" userLabel="ContainerView">
-                                <rect key="frame" x="25" y="595" width="364" height="267"/>
+                                <rect key="frame" x="25" y="594.5" width="364" height="267.5"/>
                                 <connections>
                                     <segue destination="zms-ba-lTS" kind="embed" id="3RK-ub-nrC"/>
                                 </connections>
@@ -184,15 +184,15 @@
                         </view>
                     </navigationItem>
                     <connections>
-                        <outlet property="gainedSetsTeamA" destination="uya-AL-mjH" id="30K-7C-qfK"/>
-                        <outlet property="gainedSetsTeamB" destination="cND-jj-ug1" id="iVa-ls-yMa"/>
+                        <outlet property="gainedSetsTeamLeft" destination="uya-AL-mjH" id="ivX-Jb-NYW"/>
+                        <outlet property="gainedSetsTeamRight" destination="cND-jj-ug1" id="UTG-FV-4NM"/>
                         <outlet property="navItem" destination="5Oh-47-Bnw" id="YgT-Cw-lEj"/>
                         <outlet property="panelView" destination="jS4-5j-oh5" id="sdv-8Q-LZ2"/>
-                        <outlet property="pointsTeamA" destination="7cK-Cd-g9M" id="cFK-W9-c2O"/>
-                        <outlet property="pointsTeamB" destination="VpI-wP-pw3" id="Nm2-b0-jHd"/>
+                        <outlet property="pointsTeamLeft" destination="7cK-Cd-g9M" id="QVP-df-Oti"/>
+                        <outlet property="pointsTeamRight" destination="VpI-wP-pw3" id="Iu8-Zf-Dwv"/>
                         <outlet property="setNumberLabel" destination="x3N-cF-5OP" id="ysS-8a-2fP"/>
-                        <outlet property="teamAName" destination="DNK-G8-NMw" id="aTW-fi-KTu"/>
-                        <outlet property="teamBName" destination="QDx-2o-lPw" id="QAW-4v-sCd"/>
+                        <outlet property="teamLeftName" destination="DNK-G8-NMw" id="uBX-Ho-C8n"/>
+                        <outlet property="teamRightName" destination="QDx-2o-lPw" id="grD-RN-4Ic"/>
                         <outlet property="versionLabel" destination="6eh-gT-O9z" id="djR-kx-1dN"/>
                     </connections>
                 </viewController>
@@ -273,6 +273,49 @@
             </objects>
             <point key="canvasLocation" x="1996" y="682"/>
         </scene>
+        <!--More SettingsVC-->
+        <scene sceneID="6r9-Hd-xrM">
+            <objects>
+                <viewController storyboardIdentifier="MoreSettingsVC" id="uKw-Im-Xyc" customClass="MoreSettingsVC" customModule="ScoreCounterUIKit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="K4B-LZ-he0">
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="55"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fsa-Ig-bUd">
+                                <rect key="frame" x="12" y="24" width="180" height="23"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swap the courts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9tj-p1-YE2">
+                                        <rect key="frame" x="0.0" y="1.5" width="124" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D6r-Sk-fBg">
+                                        <rect key="frame" x="134.5" y="0.0" width="45.5" height="23"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="arrow.left.arrow.right.square" catalog="system"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Gfa-JS-OVY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fsa-Ig-bUd" firstAttribute="top" secondItem="K4B-LZ-he0" secondAttribute="top" constant="24" id="NFl-Et-ITh"/>
+                            <constraint firstAttribute="bottom" secondItem="fsa-Ig-bUd" secondAttribute="bottom" constant="8" id="SQ4-ww-OSD"/>
+                            <constraint firstItem="fsa-Ig-bUd" firstAttribute="leading" secondItem="Gfa-JS-OVY" secondAttribute="leading" constant="12" id="WDn-nO-PbH"/>
+                            <constraint firstItem="Gfa-JS-OVY" firstAttribute="trailing" secondItem="fsa-Ig-bUd" secondAttribute="trailing" constant="8" id="rGF-mm-iAo"/>
+                        </constraints>
+                    </view>
+                    <size key="freeformSize" width="200" height="55"/>
+                    <connections>
+                        <outlet property="swapTheCourtsSV" destination="fsa-Ig-bUd" id="720-6i-UDh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pcm-j9-rL8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2850.7246376811595" y="456.36160714285711"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="89B-rj-a4U">
             <objects>
@@ -291,8 +334,65 @@
             </objects>
             <point key="canvasLocation" x="279.71014492753625" y="128.57142857142856"/>
         </scene>
+        <!--Confirm TrashVC-->
+        <scene sceneID="f0E-nV-boE">
+            <objects>
+                <viewController storyboardIdentifier="ConfirmTrashVC" id="CUT-Rp-6LG" customClass="ConfirmTrashVC" customModule="ScoreCounterUIKit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="r1c-Ay-Rte">
+                        <rect key="frame" x="0.0" y="0.0" width="275" height="90"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ovY-m8-8gk">
+                                <rect key="frame" x="12" y="24" width="255" height="58"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vpj-qV-1gH">
+                                        <rect key="frame" x="8" y="0.0" width="239" height="33"/>
+                                        <color key="tintColor" systemColor="systemRedColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Button">
+                                            <attributedString key="attributedTitle">
+                                                <fragment content="Confirm removing all scores">
+                                                    <attributes>
+                                                        <font key="NSFont" size="15" name="Helvetica-Bold"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                        </state>
+                                        <buttonConfiguration key="configuration" style="filled" title="Confirm removing all scores">
+                                            <fontDescription key="titleFontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="didTappedConfirmRemovingAllScores:" destination="CUT-Rp-6LG" eventType="touchUpInside" id="0IR-FL-ICV"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="You cannot undo this action" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vQt-QI-Wsa">
+                                        <rect key="frame" x="38" y="41" width="179.5" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="VYE-EC-q9e"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="VYE-EC-q9e" firstAttribute="bottom" secondItem="ovY-m8-8gk" secondAttribute="bottom" constant="8" id="9El-Az-pdM"/>
+                            <constraint firstItem="ovY-m8-8gk" firstAttribute="leading" secondItem="VYE-EC-q9e" secondAttribute="leading" constant="12" id="IWp-Ue-xX1"/>
+                            <constraint firstItem="VYE-EC-q9e" firstAttribute="trailing" secondItem="ovY-m8-8gk" secondAttribute="trailing" constant="8" id="ilj-O1-MfI"/>
+                            <constraint firstItem="ovY-m8-8gk" firstAttribute="top" secondItem="r1c-Ay-Rte" secondAttribute="top" constant="24" id="yJz-uI-ZUi"/>
+                        </constraints>
+                    </view>
+                    <size key="freeformSize" width="275" height="90"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lvX-u2-BH5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2851" y="576"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="arrow.left.arrow.right.square" catalog="system" width="128" height="114"/>
         <image name="plus.square.fill" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -302,6 +402,9 @@
         </systemColor>
         <systemColor name="systemGray5Color">
             <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

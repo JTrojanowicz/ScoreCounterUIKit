@@ -39,12 +39,14 @@ extension UserDefaults {
         }
     }
     
-    class var isTeamAonTheRight: Bool {
+    class var isTeamAonTheLeft: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: Keys.isTeamAonTheRight)
+            let isTeamAonTheRight = UserDefaults.standard.bool(forKey: Keys.isTeamAonTheRight)
+            return !isTeamAonTheRight // return the negative
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: Keys.isTeamAonTheRight)
+            let isTeamAonTheRight = !newValue // reverse the newValue
+            UserDefaults.standard.set(isTeamAonTheRight, forKey: Keys.isTeamAonTheRight)
         }
     }
     

@@ -44,7 +44,8 @@ extension HistoryTVC  {
             loadPropertiesOfCurrentSet()
             frc.delegate = self // so that the delegate functions can be used in this object
             
-            NotificationCenter.default.addObserver(self, selector: #selector(onDidSetNumberChanged(notification:)), name: .newSetNumber, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(onDidSetNumberChanged(_:)), name: .newSetNumber, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(onDidCourtSwapped(_:)), name: .didCourtSwapped, object: nil)
         }
         
         //===============================================================================
@@ -105,12 +106,12 @@ extension HistoryTVC  {
             case .insert:
                 guard let indexPath = newIndexPath else { return }
                 
-                loadPropertiesOfCurrentSet() // inserting is always on the top but for now we calculate everything from stretch
+                loadPropertiesOfCurrentSet()
                 delegate?.tableViewInsertRow(at: indexPath)
             case .delete:
                 guard let indexPath = indexPath else { return }
                 
-                loadPropertiesOfCurrentSet() // deleting is always from the top but for now we calculate everything from stretch
+                loadPropertiesOfCurrentSet()
                 delegate?.tableViewDeleteRow(at: indexPath)
             case .update:
                 print("ERROR: update on the FRC controller shouldn't happen")
@@ -150,7 +151,7 @@ extension HistoryTVC  {
                 return "error"
             }
             
-            let pointsOnTheLeft = UserDefaults.isTeamAonTheRight ? scoresOfCurrentSet[index].pointsOfTeamB : scoresOfCurrentSet[index].pointsOfTeamA
+            let pointsOnTheLeft = UserDefaults.isTeamAonTheLeft ? scoresOfCurrentSet[index].pointsOfTeamA : scoresOfCurrentSet[index].pointsOfTeamB
             
             return String(pointsOnTheLeft)
         }
@@ -161,7 +162,7 @@ extension HistoryTVC  {
                 return "error"
             }
             
-            let pointsOnTheRight = UserDefaults.isTeamAonTheRight ? scoresOfCurrentSet[index].pointsOfTeamA : scoresOfCurrentSet[index].pointsOfTeamB
+            let pointsOnTheRight = UserDefaults.isTeamAonTheLeft ? scoresOfCurrentSet[index].pointsOfTeamB : scoresOfCurrentSet[index].pointsOfTeamA
             
             return String(pointsOnTheRight)
         }
@@ -169,9 +170,14 @@ extension HistoryTVC  {
         //===============================================================================
         // MARK:       ******* Notifications *******
         //===============================================================================
-        @objc func onDidSetNumberChanged(notification: NSNotification) {
+        @objc func onDidSetNumberChanged(_: NSNotification) {
             loadPropertiesOfCurrentSet()
             performFetchOnFrc() // perform fetch on FRC when set number changes
+            delegate?.reloadTableView()
+        }
+        
+        @objc func onDidCourtSwapped(_: NSNotification) {
+            performFetchOnFrc() // perform fetch on FRC when the courts were swapped
             delegate?.reloadTableView()
         }
     }

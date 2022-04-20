@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
     static let newSetNumber = Notification.Name("newSetNumber")
+    static let didCourtSwapped = Notification.Name("didCourtSwapped")
 }

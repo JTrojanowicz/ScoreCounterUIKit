@@ -9,6 +9,7 @@ import Foundation
 
 class AppProperties {
     static let coreDataModelName = "ScoreCounterDatabase"
-    static let newSetAllowedFromScore = 5
+    static let newSetAllowedFromScore = 1
+    
     
 }

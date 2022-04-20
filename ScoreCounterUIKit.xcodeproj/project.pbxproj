@@ -18,6 +18,8 @@
 		EF5FF4DF27FEC17D00744CF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF5FF4DE27FEC17D00744CF4 /* Assets.xcassets */; };
 		EF5FF4E227FEC17D00744CF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF5FF4E027FEC17D00744CF4 /* LaunchScreen.storyboard */; };
 		EF5FF4EA27FEE8A500744CF4 /* MainVC-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FF4E927FEE8A500744CF4 /* MainVC-ViewModel.swift */; };
+		EF6B3F7D280EE9CF0000DA8D /* MoreSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6B3F7C280EE9CF0000DA8D /* MoreSettingsVC.swift */; };
+		EF6B3F7F28101CEF0000DA8D /* ConfirmTrashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6B3F7E28101CEF0000DA8D /* ConfirmTrashVC.swift */; };
 		EFCE531B280569EE00A39533 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCE531A280569EE00A39533 /* CoreDataManager.swift */; };
 		EFCE531F28056A2E00A39533 /* ScoreCounterDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EFCE531D28056A2E00A39533 /* ScoreCounterDatabase.xcdatamodeld */; };
 		EFCE532128056BF500A39533 /* AppProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCE532028056BF500A39533 /* AppProperties.swift */; };
@@ -38,6 +40,8 @@
 		EF5FF4E127FEC17D00744CF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF5FF4E327FEC17D00744CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF5FF4E927FEE8A500744CF4 /* MainVC-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainVC-ViewModel.swift"; sourceTree = "<group>"; };
+		EF6B3F7C280EE9CF0000DA8D /* MoreSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreSettingsVC.swift; sourceTree = "<group>"; };
+		EF6B3F7E28101CEF0000DA8D /* ConfirmTrashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmTrashVC.swift; sourceTree = "<group>"; };
 		EFCE531A280569EE00A39533 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		EFCE531E28056A2E00A39533 /* ScoreCounterDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ScoreCounterDatabase.xcdatamodel; sourceTree = "<group>"; };
 		EFCE532028056BF500A39533 /* AppProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProperties.swift; sourceTree = "<group>"; };
@@ -94,6 +98,15 @@
 			path = ScoreCounterUIKit;
 			sourceTree = "<group>";
 		};
+		EF6B3F8028101CF50000DA8D /* Popovers */ = {
+			isa = PBXGroup;
+			children = (
+				EF6B3F7C280EE9CF0000DA8D /* MoreSettingsVC.swift */,
+				EF6B3F7E28101CEF0000DA8D /* ConfirmTrashVC.swift */,
+			);
+			path = Popovers;
+			sourceTree = "<group>";
+		};
 		EFCE531C280569F700A39533 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +126,7 @@
 				EF2B777828082AAB0068B9AD /* HistoryTVC.swift */,
 				EF2B777C28082F530068B9AD /* HistoryTVCell.swift */,
 				EF2B777A28082B440068B9AD /* HistoryTVC-ViewModel.swift */,
+				EF6B3F8028101CF50000DA8D /* Popovers */,
 			);
 			path = "View-ViewModel";
 			sourceTree = "<group>";
@@ -205,7 +219,9 @@
 				EF2B777D28082F530068B9AD /* HistoryTVCell.swift in Sources */,
 				EFCE5324280573E000A39533 /* UserDefaults.swift in Sources */,
 				EF2B777F2809A9010068B9AD /* NotificationCenter.swift in Sources */,
+				EF6B3F7F28101CEF0000DA8D /* ConfirmTrashVC.swift in Sources */,
 				EFCE531F28056A2E00A39533 /* ScoreCounterDatabase.xcdatamodeld in Sources */,
+				EF6B3F7D280EE9CF0000DA8D /* MoreSettingsVC.swift in Sources */,
 				EFCE532128056BF500A39533 /* AppProperties.swift in Sources */,
 				EF2B777928082AAB0068B9AD /* HistoryTVC.swift in Sources */,
 				EF5FF4D827FEC17B00744CF4 /* SceneDelegate.swift in Sources */,
@@ -370,7 +386,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = iApp.ScoreCounterUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -399,7 +415,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = iApp.ScoreCounterUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -19,7 +19,7 @@ enum CourtSide {
 
 extension MainVC {
     
-    class ViewModel {
+    class ViewModel: NSObject {
         
         weak var delegate: ViewModelDelegate?
         
@@ -30,47 +30,61 @@ extension MainVC {
         //===============================================================================
         // MARK:       ******* Loading the properties from Persistent Store *******
         //===============================================================================
-        func loadCurScoreAndSetNumber() -> (teamA: Int, teamB: Int, setNumber: Int) {
-            let curSetNumber = UserDefaults.currentSetNumber
-            let curScore = CoreDataManager.shared.getScore(of: curSetNumber, with: Date.now)
-            return (teamA: curScore.teamA, teamB: curScore.teamB, setNumber: curSetNumber)
+        func loadNamesOfTeams() -> (nameOfTeamLeft: String, nameOfTeamRight: String) {
+            let nameOfTeamLeft = UserDefaults.isTeamAonTheLeft ? UserDefaults.nameOfTeamA : UserDefaults.nameOfTeamB
+            let nameOfTeamRight = UserDefaults.isTeamAonTheLeft ? UserDefaults.nameOfTeamB : UserDefaults.nameOfTeamA
+            return (nameOfTeamLeft: nameOfTeamLeft, nameOfTeamRight: nameOfTeamRight)
         }
         
-        func loadGainedSets() -> (gainedSetsOfTeamA: Int, gainedSetsOfTeamB: Int) {
+        func loadCurScoreAndSetNumber() -> (pointsOfTeamLeft: String, pointsOfTeamRight: String, setNumber: String) {
+            
+            let curSetNumber = UserDefaults.currentSetNumber
+            let curScore = CoreDataManager.shared.getScore(of: curSetNumber, with: Date.now)
+            let pointsOfTeamLeft = UserDefaults.isTeamAonTheLeft ? String(curScore.teamA) : String(curScore.teamB)
+            let pointsOfTeamRight = UserDefaults.isTeamAonTheLeft ? String(curScore.teamB) : String(curScore.teamA)
+            
+            return (pointsOfTeamLeft: pointsOfTeamLeft, pointsOfTeamRight: pointsOfTeamRight, setNumber: String(curSetNumber))
+        }
+        
+        func loadGainedSets() -> (gainedSetsOfTeamLeft: String, gainedSetsOfTeamRight: String) {
+            
             let gainedSets = CoreDataManager.shared.getGainedSets()
-            return (gainedSetsOfTeamA: gainedSets.teamA, gainedSetsOfTeamB: gainedSets.teamB)
+            let gainedSetsOfTeamLeft = UserDefaults.isTeamAonTheLeft ? "(\(gainedSets.teamA))" : "(\(gainedSets.teamB))"
+            let gainedSetsOfTeamRight = UserDefaults.isTeamAonTheLeft ? "(\(gainedSets.teamB))" : "(\(gainedSets.teamA))"
+            
+            return (gainedSetsOfTeamLeft: gainedSetsOfTeamLeft, gainedSetsOfTeamRight: gainedSetsOfTeamRight)
         }
         
         //===============================================================================
         // MARK:       ******* UI COMPONETS  - navigationBarButtonsRIGHT *******
         //===============================================================================
-        func navigationBarButtonsRight() -> [UIBarButtonItem] {
+        func navigationBarButtonsRight(mainVC: MainVC) -> [UIBarButtonItem] {
             var buttonItems = [UIBarButtonItem]()
             
-            buttonItems.append(moreButton())
+            buttonItems.append(moreButton(mainVC: mainVC))
             if CoreDataManager.shared.areThereAnyPointsStored() {
-                buttonItems.append(trashButton())
+                buttonItems.append(trashButton(mainVC: mainVC))
             }
             
             return buttonItems
         }
         
-        func trashButton() -> UIBarButtonItem {
+        func trashButton(mainVC: MainVC) -> UIBarButtonItem {
             let largeConfig = UIImage.SymbolConfiguration(textStyle: .title2)
             
             let trashButton = UIButton()
             trashButton.setImage(UIImage(systemName: "trash", withConfiguration: largeConfig), for: .normal)
-            trashButton.addTarget(self, action: #selector(trashButtonPressed), for: .touchUpInside)
+            trashButton.addTarget(mainVC, action: #selector(mainVC.trashButtonPressed), for: .touchUpInside)
                         
             return UIBarButtonItem(customView: trashButton)
         }
         
-        func moreButton() -> UIBarButtonItem {
+        func moreButton(mainVC: MainVC) -> UIBarButtonItem {
             let largeConfig = UIImage.SymbolConfiguration(textStyle: .title2)
             
             let moreButton = UIButton()
             moreButton.setImage(UIImage(systemName: "ellipsis", withConfiguration: largeConfig), for: .normal)
-            moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
+            moreButton.addTarget(mainVC, action: #selector(mainVC.moreButtonPressed), for: .touchUpInside)
             
             return UIBarButtonItem(customView: moreButton)
         }
@@ -128,18 +142,6 @@ extension MainVC {
         //===============================================================================
         // MARK:       ******* BUTTONS PRESSED ACTIONS *******
         //===============================================================================
-        @objc func trashButtonPressed() {
-            print("trashButtonPressed")
-            CoreDataManager.shared.eraseEverything()
-            delegate?.reloadCurScoreAndSetNumber()
-            delegate?.reloadGainedSets()
-            delegate?.reloadNavigationBarButtons()
-        }
-        
-        @objc func moreButtonPressed() {
-            print("moreButtonPressed")
-        }
-        
         @objc func undoButtonPressed() {
             print("undoButtonPressed")
             CoreDataManager.shared.removeLastScore()
@@ -166,42 +168,26 @@ extension MainVC {
         }
         
         func bigButtonPressed(courtSide: CourtSide) {
-            // check if there are any points stored
-            var initiallyNoPointsWereStored = false
-            if !CoreDataManager.shared.areThereAnyPointsStored() {
-                initiallyNoPointsWereStored = true
-            }
             
             // store one point:
             if courtSide == .left {
-                let team: Team = UserDefaults.isTeamAonTheRight ? .teamB : .teamA
+                let team: Team = UserDefaults.isTeamAonTheLeft ? .teamA : .teamB
                 CoreDataManager.shared.onePointIncrement(of: team)
                 
                 let score = CoreDataManager.shared.getScore(of: UserDefaults.currentSetNumber, with: Date.now)
                 print("+ 1pt for team \(team == .teamA ? "A" : "B") -- score: (A) \(score.teamA):\(score.teamB) (B) @ setNumber = \(UserDefaults.currentSetNumber)")
             } else {
-                let team: Team = UserDefaults.isTeamAonTheRight ? .teamA : .teamB
+                let team: Team = UserDefaults.isTeamAonTheLeft ? .teamB : .teamA
                 CoreDataManager.shared.onePointIncrement(of: team)
                 
                 let score = CoreDataManager.shared.getScore(of: UserDefaults.currentSetNumber, with: Date.now)
                 print("+ 1pt for team \(team == .teamA ? "A" : "B") -- score: (A) \(score.teamA):\(score.teamB) (B) @ setNumber = \(UserDefaults.currentSetNumber)")
             }
+            
             delegate?.reloadCurScoreAndSetNumber()
-            
-            // check if reloading of navigation bar is needed
-            if initiallyNoPointsWereStored {
-                delegate?.reloadNavigationBarButtons()
-            }
-            
-            // Check again if the New Set button should be shown
-            let currentSet = UserDefaults.currentSetNumber
-            let score = CoreDataManager.shared.getScore(of: currentSet, with: Date.now)
-            if (score.teamA == AppProperties.newSetAllowedFromScore && score.teamB < AppProperties.newSetAllowedFromScore)
-                || (score.teamB == AppProperties.newSetAllowedFromScore && score.teamA < AppProperties.newSetAllowedFromScore) {
-                
-                // yes, the New Set button should be shown, because one of the teams reached the AppProperties.newSetAllowedFromScore points
-                delegate?.reloadNavigationBarButtons()
-            }
+            delegate?.reloadNavigationBarButtons()
         }
     }
 }
+
+

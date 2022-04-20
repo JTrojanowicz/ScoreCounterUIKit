@@ -14,12 +14,12 @@ class MainVC: UIViewController {
     @IBOutlet weak var panelView: UIView!
     
     @IBOutlet weak var setNumberLabel: UILabel!
-    @IBOutlet weak var teamAName: UILabel!
-    @IBOutlet weak var teamBName: UILabel!
-    @IBOutlet weak var gainedSetsTeamA: UILabel!
-    @IBOutlet weak var gainedSetsTeamB: UILabel!
-    @IBOutlet weak var pointsTeamA: UILabel!
-    @IBOutlet weak var pointsTeamB: UILabel!
+    @IBOutlet weak var teamLeftName: UILabel!
+    @IBOutlet weak var teamRightName: UILabel!
+    @IBOutlet weak var gainedSetsTeamLeft: UILabel!
+    @IBOutlet weak var gainedSetsTeamRight: UILabel!
+    @IBOutlet weak var pointsTeamLeft: UILabel!
+    @IBOutlet weak var pointsTeamRight: UILabel!
     
     var viewModel = ViewModel()
     
@@ -30,10 +30,6 @@ class MainVC: UIViewController {
         buildNavigationItems()
         buildPanelView()
         loadAllProperties()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        
     }
     
     private func buildPanelView() {
@@ -51,7 +47,7 @@ class MainVC: UIViewController {
     }
     
     private func buildNavigationItems() {
-        navItem.rightBarButtonItems = viewModel.navigationBarButtonsRight()
+        navItem.rightBarButtonItems = viewModel.navigationBarButtonsRight(mainVC: self)
         navItem.leftBarButtonItems = viewModel.navigationBarButtonsLeft()
     }
     
@@ -62,21 +58,22 @@ class MainVC: UIViewController {
     }
     
     private func loadNamesOfTeams() {
-        teamAName.text = UserDefaults.nameOfTeamA
-        teamBName.text = UserDefaults.nameOfTeamB
+        let loadedProperties = viewModel.loadNamesOfTeams()
+        teamLeftName.text = loadedProperties.nameOfTeamLeft
+        teamRightName.text = loadedProperties.nameOfTeamRight
     }
     
     private func loadCurScoreAndSetNumber() {
         let loadedProperties = viewModel.loadCurScoreAndSetNumber()
-        setNumberLabel.text = String(loadedProperties.setNumber)
-        pointsTeamA.text = String(loadedProperties.teamA)
-        pointsTeamB.text = String(loadedProperties.teamB)
+        setNumberLabel.text = loadedProperties.setNumber
+        pointsTeamLeft.text = loadedProperties.pointsOfTeamLeft
+        pointsTeamRight.text = loadedProperties.pointsOfTeamRight
     }
     
     private func loadGainedSets() {
         let loadedProperties = viewModel.loadGainedSets()
-        gainedSetsTeamA.text = "(\(loadedProperties.gainedSetsOfTeamA))"
-        gainedSetsTeamB.text = "(\(loadedProperties.gainedSetsOfTeamB))"
+        gainedSetsTeamLeft.text = loadedProperties.gainedSetsOfTeamLeft
+        gainedSetsTeamRight.text = loadedProperties.gainedSetsOfTeamRight
     }
     
     @IBAction func leftButtonPressed(_ sender: Any) {
@@ -87,6 +84,51 @@ class MainVC: UIViewController {
         viewModel.bigButtonPressed(courtSide: .right)
     }
     
+    //===============================================================================
+    // MARK:       ******* Navigation Bar - Right Buttons pressed *******
+    //===============================================================================
+    @objc func moreButtonPressed(_ sender: UIButton) {
+        print("moreButtonPressed")
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let moreSettingsViewController = storyboard.instantiateViewController(withIdentifier: "MoreSettingsVC") as? MoreSettingsVC
+            else {
+                return
+        }
+        
+        moreSettingsViewController.modalPresentationStyle = .popover
+        moreSettingsViewController.popoverPresentationController?.delegate = self
+        moreSettingsViewController.popoverPresentationController?.sourceView = sender
+        moreSettingsViewController.popoverPresentationController?.sourceRect = sender.bounds
+        
+        let rowHeight = 55
+        moreSettingsViewController.preferredContentSize = CGSize(width: 200, height: 1 * rowHeight)
+        
+        moreSettingsViewController.delegate = self
+        
+        self.present(moreSettingsViewController, animated: true, completion: nil)
+    }
+    
+    @objc func trashButtonPressed(_ sender: UIButton) {
+        print("trashButtonPressed")
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let confirmTrashVC = storyboard.instantiateViewController(withIdentifier: "ConfirmTrashVC") as? ConfirmTrashVC
+            else {
+                return
+        }
+        
+        confirmTrashVC.modalPresentationStyle = .popover
+        confirmTrashVC.popoverPresentationController?.delegate = self
+        confirmTrashVC.popoverPresentationController?.sourceView = sender
+        confirmTrashVC.popoverPresentationController?.sourceRect = sender.bounds
+        
+        confirmTrashVC.preferredContentSize = CGSize(width: 275, height: 90)
+        
+        confirmTrashVC.delegate = self
+        
+        self.present(confirmTrashVC, animated: true, completion: nil)
+    }
 }
 //===============================================================================
 // MARK:       ******* ViewModelDelegate *******
@@ -105,4 +147,28 @@ extension MainVC: ViewModelDelegate {
     }
 }
 
+//===============================================================================
+// MARK:       ******* Delegates *******
+//===============================================================================
+extension MainVC: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
+    }
+}
+
+extension MainVC: MoreSettingsVC_delegate {
+    func reloadThePanel() {
+        loadNamesOfTeams()
+        loadCurScoreAndSetNumber()
+        loadGainedSets()
+    }
+}
+
+extension MainVC: ConfirmTrashVC_delegate {
+    func reloadTheView() {
+        loadCurScoreAndSetNumber()
+        loadGainedSets()
+        buildNavigationItems()
+    }
+}
 
