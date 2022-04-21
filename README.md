@@ -7,4 +7,5 @@ Features and functionality:
 1) Big buttons for gaining points and big font of the score
 2) Tracking of every gained point
 3) Undo, back, trash and new set functionality
-4) Written in UIKit
+4) Swapping the courts
+5) Written in UIKit
